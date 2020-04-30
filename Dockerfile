@@ -15,8 +15,6 @@ ENV SP_CONTACT root@localhost
 ENV SP_ABOUT /about
 ENV PROTECTED_URL /secure
 ENV DISCO_URL https://service.seamlessaccess.org/ds/
-ENV METADATA_URL http://mds.swamid.se/md/swamid-idp-transitive.xml
-ENV METADATA_SIGNER md-signer2.crt
 RUN rm -f /etc/apache2/sites-available/*
 RUN rm -f /etc/apache2/sites-enabled/*
 ADD start.sh /start.sh

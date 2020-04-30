@@ -22,14 +22,6 @@ if [ "x$DISCO_URL" = "x" ]; then
    DISCO_URL="https://md.nordu.net/role/idp.ds"
 fi
 
-if [ "x$METADATA_URL" = "x" ]; then
-   METADATA_URL="http://mds.swamid.se/md/swamid-idp-transitive.xml"
-fi
-
-if [ "x$METADATA_SIGNER" = "x" ]; then
-   METADATA_SIGNER="md-signer2.crt"
-fi
-
 if [ "x$SP_CONTACT" = "x" ]; then
    SP_CONTACT="info@$SP_CONTACT"
 fi
@@ -94,6 +86,7 @@ cat>/etc/shibboleth/shibboleth2.xml<<EOF
     <!-- The ApplicationDefaults element is where most of Shibboleth's SAML bits are defined. -->
     <ApplicationDefaults entityID="https://${SP_HOSTNAME}/shibboleth"
         REMOTE_USER="eppn subject-id pairwise-id persistent-id"
+        attributePrefix="AJP_"
         cipherSuites="DEFAULT:!EXP:!LOW:!aNULL:!eNULL:!DES:!IDEA:!SEED:!RC4:!3DES:!kRSA:!SSLv2:!SSLv3:!TLSv1:!TLSv1.1">
 
         <!--
@@ -144,11 +137,8 @@ cat>/etc/shibboleth/shibboleth2.xml<<EOF
             helpLocation="${SP_ABOUT}"
             styleSheet="/shibboleth-sp/main.css"/>
 
-        <MetadataProvider type="XML" validate="true"
-	            url="${METADATA_URL}"
-              backingFilePath="metadata.xml" maxRefreshDelay="7200">
+        <MetadataProvider type="XML" validate="false" path="${METADATA_FILE}" maxRefreshDelay="7200">
             <MetadataFilter type="RequireValidUntil" maxValidityInterval="2419200"/>
-            <MetadataFilter type="Signature" certificate="${METADATA_SIGNER}" verifyBackup="false"/>
             <DiscoveryFilter type="Blacklist" matcher="EntityAttributes" trimTags="true" 
               attributeName="http://macedir.org/entity-category"
               attributeNameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri"
