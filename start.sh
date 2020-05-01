@@ -200,6 +200,7 @@ ServerName ${SP_HOSTNAME}
        require valid-user
    </Location>
    AddDefaultCharset utf-8
+   ProxyTimeout 600
    ProxyPass /Shibboleth.sso !
    ProxyPass /shibboleth-sp !
    ProxyPreserveHost On
@@ -259,6 +260,7 @@ ServerName ${SP_HOSTNAME}
    </Location>
 
    ProxyRequests On
+   ProxyTimeout 600
    ProxyPass /Shibboleth.sso !
    ProxyPass /shibboleth-sp !
    ProxyPass / ${BACKEND_URL}
